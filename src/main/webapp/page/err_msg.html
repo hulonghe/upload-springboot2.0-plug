@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>404</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <link rel="stylesheet" href="/static/css/font.css">
+    <link rel="stylesheet" href="/static/css/weadmin.css">
+</head>
+<body>
+<div class="weadmin-body">
+    <div class="weadmin-trailer">
+        <div class="layui-col-lg12">
+            <span id="errMsg"></span>
+            <span style="color: #000;text-decoration-style: dotted" onclick="window.history.back(-1)">点击此处返回</span>
+        </div>
+    </div>
+</div>
+</body>
+
+<script type="application/javascript" src="/static/util/layui-v2.5.5/layui.js"></script>
+<script type="application/javascript" src="/static/js/global-var.js"></script>
+<script type="application/javascript" src="/static/js/index.js"></script>
+
+<script>
+    let index = setInterval(function () {
+        clearInterval(index);
+        if ($ && layer) {
+            let param = getUrlParam(window.location.search);
+            let errMsg = param['errMsg'] ? param['errMsg'] : '系统繁忙！';
+            $('#errMsg').text(errMsg);
+            alert(errMsg, function () {
+                if (!param['url']) {
+                    window.history.back(-1);
+                } else {
+                    let goUrl = param['url'] + (param['redirect'] ? ('?redirect=' + param['redirect']) : '');
+                    goUrl = getTextReqPath(goUrl);
+                    window.location.href = goUrl;
+                }
+            })
+
+        }
+    }, 200);
+</script>
+</html>

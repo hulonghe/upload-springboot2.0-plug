@@ -1,0 +1,159 @@
+## 开发环境
+
+server:
+  port: 30003
+  tomcat:
+    #以Tomcat为web容器时的字符编码
+    uri-encoding: UTF-8
+  servlet:
+    session:
+      # Duration转换字符串方式，默认为正，负以-开头，紧接着P，（字母不区分大小写）D ：天 T：天和小时之间的分隔符 H ：小时  M：分钟  S：秒
+      # 每个单位都必须是数字，且时分秒顺序不能乱。例如PT20M，就是设置为20分钟
+      timeout: PT20M
+
+debug: false   # 调试
+
+spring:
+  devtools:
+    restart:
+      enabled: false  #设置开启热部署
+  freemarker:
+    cache: false    #页面不加载缓存，修改即时生效
+  session:
+    # 解决会话表spring_session没有自动创建。
+    store-type: jdbc
+    jdbc:
+      initialize-schema: always
+  http:
+    encoding:
+      #http请求的字符编码
+      charset: UTF-8
+
+  servlet:
+    multipart:
+      enabled: true
+      #单个文件的最大上限
+      max-file-size: 30MB
+      #单个请求的文件总大小上限
+      max-request-size: 100MB
+
+  # hikari ,据说这是目前性能最好的java数据库连接池
+  datasource:
+    username: witdom_longjing
+    password: witdom_longjing
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://www.zgllh.site:3306/witdom_longjing?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&zeroDateTimeBehavior=convertToNull
+    #    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    #    url: jdbc:log4jdbc:mysql://www.zgllh.site:3306/witdom_longjing?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&zeroDateTimeBehavior=convertToNull
+    hikari: # springboot 2.0 整合了hikari ,据说这是目前性能最好的java数据库连接池
+      username: witdom_longjing
+      password: witdom_longjing
+      minimum-idle: 5  # 最小空闲连接数量
+      idle-timeout: 180000 # 空闲连接存活最大时间，默认600000（10分钟）
+      maximum-pool-size: 10 # 连接池最大连接数,默认是10
+      auto-commit: true # 此属性控制从池返回的连接的默认自动提交行为,默认值：true
+      pool-name: MyHikariCP # 连接池名称
+      max-lifetime: 1800000 # 此属性控制池中连接的最长生命周期,值0表示无限生命周期,默认1800000即30分钟
+      connection-timeout: 30000 # 数据库连接超时时间,默认30秒,即30000
+    #      connection-test-query: SELECT 1 #连接池每分配一条连接前执行的查询语句（如：SELECT 1），以验证该连接是否是有效的。如果你的驱动程序支持 JDBC4,HikariCP 强烈建议我们不要设置此属性
+
+  # JPA config
+  jpa:
+    # 显示SQL语句
+    show-sql: true
+    database: MYSQL
+    hibernate:
+      # 数据库结构更新策略
+      ddl-auto: update
+      # 取消自动将驼峰转为下划线模式
+    #      naming:
+    #        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    database-platform: org.hibernate.dialect.MySQL55Dialect
+    generate-ddl: true
+    properties:
+      hibernate:
+      # 格式化输出SQL
+  #        format_sql: true
+  jackson:
+    serialization:
+      indent_output: true
+    #    time-zone: GMT+8
+    # NON_EMPTY 属性为 空（""） 或者为 NULL 都不序列化，则返回的json是没有这个字段的。这样对移动端会更省流量
+    default-property-inclusion: non_empty
+
+  # thymeleaf 配置
+  thymeleaf:
+    # 模板的模式，支持 HTML, XML TEXT JAVASCRIPT
+    mode: HTML5
+    # 编码 可不用配置
+    encoding: UTF-8
+    # 内容类别,可不用配置
+    #    content-type: text/html
+    # 开发配置为false,避免修改模板还要重启服务器
+    cache: false
+    # 配置模板路径，默认是templates，可以不用配置
+    #    prefix: classpath:templates/page/
+    prefix: /page/
+    suffix: .html
+  # 热部署文件，页面不产生缓存，及时更新
+  resources:
+    chain:
+      strategy:
+        content:
+          enabled: true
+          paths: /**
+  mvc:
+    # 静态资源路径
+    static-path-pattern: /static/**
+
+  redis:
+    # Redis数据库索引（默认为0）
+    database: 0
+    # Redis服务器地址
+    host: localhost
+    # Redis服务器连接端口
+    port: 6379
+    # Redis服务器连接密码（默认为空）
+    password: redis
+    # 连接超时时间（毫秒）
+    timeout: 5000
+    # spring session & redis共享
+  #    session:
+  #      store-type: redis
+
+  # 邮箱配置
+  mail:
+    host: smtp.163.com
+    username: hlhcmp@163.com
+    password: Hlh1996740804
+    port: 465
+    default-encoding: utf-8
+    protocol: smtp
+    properties:
+      mail:
+        debug: true
+        smtp:
+          timeout: 20000
+          auth: true
+          ssl:
+            enable: true
+            socketFactory: javax.net.ssl.SSLSocketFactory
+
+# 日志配置
+logging:
+  config: classpath:log4j2-spring-sit.xml
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql:
+              # 显示出Hibernate查询语句的绑定参数值
+              BasicBinder: trace
+    com:
+      example:
+        mapper: debug
+  org:
+    hibernate:
+      # 显示SQL语句
+      SQL: DEBUG

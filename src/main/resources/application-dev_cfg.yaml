@@ -1,0 +1,71 @@
+sysTitle: 基于Springboot2.0的文件上传插件
+mconfig:
+  final:
+    # 当前配置环境
+    environment: dev_cfg,dev_init_data_entity
+    # 加密的盐
+    saltKey: Gxzy20200102142!
+    # 分页默认大小
+    size: 15
+    # 分页默认页
+    page: 1
+    # Win系统下文件保存路径
+    uploadSavePathWin: c://tests//files//
+    # Linux系统下文件保存路径
+    uploadSavePathLinux: //www//wwwroot//file_server//
+    # Win系统下的logo路径
+    logoFilePathWin: c://tests//logo.jpg
+    # Linux系统下的logo路径
+    logoFilePathLinux: //www//wwwroot//file_server//logo.jpg
+    # 缩略图后缀
+    imagesSuffix: -thumbnail
+    # 图片压缩比例
+    imageScale: 0.7
+    # 单张图片超过后启动压缩
+    imageMoreScale: 300KB
+    # 支持上传的图片文件类型
+    imageExtension: jpeg,jpg,gif,bmp,png
+    # 允许上传的文件类型
+    fileExtension: doc,docx,xls,xlsx,ppt,pptx
+    # 服务器访问根路径
+    serverUrl: http://localhost:30003
+    # 文件服务器访问根路径
+    fileServerUrl: http://localhost:8889/files/
+    # 前端web服务访问路径
+    frontServerUrl: http://localhost:8891/
+    # 页面级请求鉴权开关
+    authPageReqStatus: false
+    # Ajax请求鉴权开关
+    authAjaxReqStatus: false
+#    # type 实体类中默认内容
+#    initTypeEntity:
+#      文章分类:
+#        默认: true
+#        系统公告: true
+#      文件分类: true
+#      其它: true
+  # httpclient需要的一些配置参数
+  http:
+    # 最大连接数
+    maxTotal: 100
+    # 并发数
+    defaultMaxPerRoute: 20
+    # 创建连接的最长时间
+    connectTimeout: 1000
+    # 从连接池中获取到连接的最长时间
+    connectionRequestTimeout: 500
+    # 数据传输的最长时间
+    socketTimeout: 10000
+    # 提交请求前测试连接是否可用
+    staleConnectionCheckEnabled: true
+
+  redis:
+    # token有效时长
+    accessTokenTimeout: 1200
+  multipart:
+    # resolveLazily属性启用是为了推迟文件解析，以在在UploadAction中捕获文件大小异常
+    resolveLazily: true
+    # 单位KB,阈值，低于此值，只保留在内存里，超过此阈值，生成硬盘上的临时文件。
+    maxInMemorySize: 10KB
+    # 单位KB,上传文件大小
+    maxUploadSize: 10MB

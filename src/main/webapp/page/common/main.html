@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>管理</title>
+</head>
+<body>
+<div id="vue">
+    <div class="layui-body" style="bottom: 0;border-left: solid 2px #1AA094;" id="admin-body"
+         :style="{'top': top_height}">
+        <div class="layui-tab admin-nav-card layui-tab-brief" lay-filter="admin-tab">
+            <ul class="layui-tab-title">
+                <li class="layui-this">
+                    <i class="fa fa-dashboard" aria-hidden="true"></i>
+                    <cite>控制面板</cite>
+                </li>
+            </ul>
+            <div class="layui-tab-content" style="min-height: 150px; padding: 5px 0 0 0;">
+                <div class="layui-tab-item layui-show">
+                    <iframe :src="site"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script type="text/javascript">
+    vueData = {
+        el: '#vue',
+        data: {
+            site: getTextReqPath('/404.html'),
+            top_height: '70px'
+        },
+        mounted: function () {
+            let top_height = $('#menu_left_once').offset().top;
+            this.top_height = top_height + 'px';
+        },
+        methods: {
+            details: function (e) {
+                $('#body_once').load(getTextReqPath('/common/menu.html'));
+            }
+        }
+    };
+</script>
+
+</html>

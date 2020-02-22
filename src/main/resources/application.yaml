@@ -1,0 +1,6 @@
+spring:
+  profiles:
+    # 开发环境
+#    active: dev,dev_cfg,dev_init_data_entity
+    # 测试环境（内部）
+    active: sit,sit_cfg,sit_init_data_entity
