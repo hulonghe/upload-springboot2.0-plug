@@ -41,21 +41,25 @@ spring:
   datasource:
     username: witdom_longjing
     password: witdom_longjing
+    type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://www.zgllh.site:3306/witdom_longjing?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&zeroDateTimeBehavior=convertToNull
-    #    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    #    url: jdbc:log4jdbc:mysql://www.zgllh.site:3306/witdom_longjing?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&zeroDateTimeBehavior=convertToNull
-    hikari: # springboot 2.0 整合了hikari ,据说这是目前性能最好的java数据库连接池
-      username: witdom_longjing
-      password: witdom_longjing
-      minimum-idle: 5  # 最小空闲连接数量
-      idle-timeout: 180000 # 空闲连接存活最大时间，默认600000（10分钟）
-      maximum-pool-size: 10 # 连接池最大连接数,默认是10
-      auto-commit: true # 此属性控制从池返回的连接的默认自动提交行为,默认值：true
-      pool-name: MyHikariCP # 连接池名称
-      max-lifetime: 1800000 # 此属性控制池中连接的最长生命周期,值0表示无限生命周期,默认1800000即30分钟
-      connection-timeout: 30000 # 数据库连接超时时间,默认30秒,即30000
-    #      connection-test-query: SELECT 1 #连接池每分配一条连接前执行的查询语句（如：SELECT 1），以验证该连接是否是有效的。如果你的驱动程序支持 JDBC4,HikariCP 强烈建议我们不要设置此属性
+    url: jdbc:mysql://server.zgllh.site:3306/witdom_longjing?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT&zeroDateTimeBehavior=convertToNull
+    # springboot 2.0 整合了hikari
+    hikari:
+      # 最小空闲连接数量
+      minimum-idle: 5
+      # 空闲连接存活最大时间，默认600000（10分钟）
+      idle-timeout: 3600000
+      # 连接池最大连接数,默认是10
+      maximum-pool-size: 10
+      # 此属性控制从池返回的连接的默认自动提交行为,默认值：true
+      auto-commit: true
+      # 连接池名称
+      pool-name: MyHikariCP
+      # 此属性控制池中连接的最长生命周期,值0表示无限生命周期,默认1800000即30分钟
+      max-lifetime: 36000000
+      # 数据库连接超时时间,默认30秒,即30000
+      connection-timeout: 30000
 
   # JPA config
   jpa:
