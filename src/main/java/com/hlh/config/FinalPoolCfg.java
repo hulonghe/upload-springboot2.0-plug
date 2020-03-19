@@ -48,7 +48,7 @@ public class FinalPoolCfg {
 
     /* 一些别名信息 */
     // 登陆鉴权需要验证的请求头部字段名
-    public static final String HEADER_ACCESS_TOKEN_NAME = "access_token";
+    public static final String HEADER_ACCESS_TOKEN_NAME = "accessToken";
     // 存放于当前会话中的登陆信息名
     public static final String SESSION_LOGININFO_NAME = "loginInfo";
     // 存放于当前会话中的错误信息名
