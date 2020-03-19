@@ -170,11 +170,14 @@ public class UploadController extends BaseServiceUtil {
             // 具体的日期文件夹
             String date = DateUtil.getToday() + "//";
             // 文件后缀
-            String fileExtention = ImageUtil.getFileExtention(Objects.requireNonNull(file.getOriginalFilename()));
+            String fileExtention = FileTypeUtil.getFileByFile(file.getBytes());
             // 创建文件名
             String fileName = randomUtil.getFileName(fileExtention);
             // 上传文件保存的完整路径
             String filepath = uploadPath + date + fileName;
+
+            log.info("保存信息 -> uploadPath： " + uploadPath + " -> date:" + date + " -> fileExtention:" + fileExtention + " -> fileName: " + fileName + " -> filepath:" + filepath);
+
             // 视频文件缩略图保存路径
             String videoImgPath = null;
             // 如果文件夹不存在,则创建
@@ -201,14 +204,20 @@ public class UploadController extends BaseServiceUtil {
 
                 if (thumbnails.size() > 0) {
                     // 成功则返回压缩图片的访问路径
-                    map = RepUtil.post(finalPool.getFileServerUrl() + date + imageUtil.appendSuffix(fileName, finalPool.getImagesSuffix()));
+                    String url = finalPool.getFileServerUrl() + date + imageUtil.appendSuffix(fileName, finalPool.getImagesSuffix());
+                    log.info("文件压缩成功 -> req path -> " + url);
+                    map = RepUtil.post(url);
                 } else {
                     // 失败则返回源文件的访问路径
-                    map = RepUtil.post(finalPool.getFileServerUrl() + date + fileName);
+                    String url = finalPool.getFileServerUrl() + date + fileName;
+                    log.info("文件压缩失败 -> path -> " + url);
+                    map = RepUtil.post(url);
                 }
             } else {
                 //不是图片,返回源文件路径
-                map = RepUtil.post(finalPool.getFileServerUrl() + date + fileName);
+                String url = finalPool.getFileServerUrl() + date + fileName;
+                log.info("不是图片,不压缩 -> req path -> " + url);
+                map = RepUtil.post(url);
             }
 
             /* 数据持久化 */
@@ -229,15 +238,15 @@ public class UploadController extends BaseServiceUtil {
             }
 
             FileInfo build = FileInfo.builder()
-                    .sourceName(file.getOriginalFilename())
-                    .parent(fileInfoEditParam.getParent())
-                    .parentId(fileInfoEditParam.getParentId())
-                    .path(filepath)
-                    .url(String.valueOf(map.get("data")))
-                    .size(file.getSize())
-                    .type("image")
-                    .publisher(userid)
-                    .build();
+                                     .sourceName(file.getOriginalFilename())
+                                     .parent(fileInfoEditParam.getParent())
+                                     .parentId(fileInfoEditParam.getParentId())
+                                     .path(filepath)
+                                     .url(String.valueOf(map.get("data")))
+                                     .size(file.getSize())
+                                     .type("image")
+                                     .publisher(userid)
+                                     .build();
 
             map = RepUtil.post(saveFileInfo(build));
         } catch (IOException e) {
