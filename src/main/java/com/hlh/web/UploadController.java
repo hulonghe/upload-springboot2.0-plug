@@ -117,7 +117,8 @@ public class UploadController extends BaseServiceUtil {
         }
 
         Map<String, Object> map2 = new HashMap<>();
-        map2.put("src", map.get("data"));
+        FileInfo fileInfo = (FileInfo) map.get("data");
+        map2.put("src", fileInfo.getUrl());
         return RepUtil.post(map2);
     }
 
